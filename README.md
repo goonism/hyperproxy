@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/goonism/dat-hyperproxy/">
-    <img alt="vize" src="https://github.com/goonism/dat-hyperproxy/blob/master/icon.png" width="234">
+    <img alt="hyperproxy" src="https://github.com/goonism/dat-hyperproxy/blob/master/icon.png" width="234">
   </a>
 </p>
 
