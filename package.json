@@ -1,0 +1,8 @@
+{
+  "name": "dat-hyperproxy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:goonism/dat-hyperproxy.git",
+  "author": "Stolab <lgvichy@gmail.com>",
+  "license": "MIT"
+}
