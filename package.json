@@ -4,5 +4,13 @@
   "main": "index.js",
   "repository": "git@github.com:goonism/dat-hyperproxy.git",
   "author": "Stolab <lgvichy@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
+  },
+  "scripts": {
+    "start": "babel-node src/index.js",
+    "build": "babel src -d lib"
+  }
 }
