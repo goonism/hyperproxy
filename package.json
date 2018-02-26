@@ -1,8 +1,8 @@
 {
-    "name": "dat-hyperproxy",
+    "name": "hyperproxy",
     "version": "1.0.0",
     "main": "index.js",
-    "repository": "git@github.com:goonism/dat-hyperproxy.git",
+    "repository": "git@github.com:goonism/hyperproxy.git",
     "author": "Stolab <lgvichy@gmail.com>",
     "license": "MIT",
     "devDependencies": {
@@ -19,13 +19,20 @@
         "test": "ava -s --timeout=5s"
     },
     "dependencies": {
-        "discovery-swarm": "^4.4.2"
+        "debug": "^3.1.0",
+        "discovery-swarm": "^4.4.2",
+        "hyperdrive": "^9.12.3",
+        "signalhubws": "^1.0.3",
+        "uws": "^9.14.0",
+        "webrtc-swarm": "^2.9.0",
+        "websocket": "^1.0.25",
+        "wrtc": "^0.0.67"
     },
     "ava": {
-      "require": [
-        "babel-register",
-        "babel-polyfill"
-      ],
-      "babel": "inherit"
+        "require": [
+            "babel-register",
+            "babel-polyfill"
+        ],
+        "babel": "inherit"
     }
 }
