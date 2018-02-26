@@ -12,14 +12,20 @@ const wss = new WebSocketServer({port: PORT});
 function onConnection(ws) {
 
     // Data token
-    const app = ws.upgradeReq.url.split('?')[0].split('#')[0].substring(1).split('/');
+    const query = ws.upgradeReq.url.split('?')[0].split('#')[0].substring(1).split('/');
+
+    const app = query[query.length - 1];
 
     console.log(app);
-    console.log(ws.app);
+
+    console.log(ws);
+    
+    console.log(wss);
 
     const hyperProxy = new HyperProxy(app);
 
-    hyperProxy.once('connection', (c)=> {
+    hyperProxy.on('connection', (c)=> {
+        console.log(c);
         wss.clients.forEach((client) => {
             client.send(c);
         });
