@@ -11,7 +11,8 @@
         "babel-plugin-transform-object-rest-spread": "^6.26.0",
         "babel-polyfill": "^6.26.0",
         "babel-preset-env": "^1.6.1",
-        "babel-register": "^6.26.0"
+        "babel-register": "^6.26.0",
+        "supports-color": "^5.2.0"
     },
     "scripts": {
         "start": "babel-node src/index.js",
