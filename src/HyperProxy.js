@@ -1,3 +1,4 @@
+import EventEmitter from 'events';
 import NativeSwarm from 'discovery-swarm';
 
 /*
@@ -7,7 +8,7 @@ import NativeSwarm from 'discovery-swarm';
 export default class HyperProxy extends EventEmitter {
     constructor(id) {
         super();
-        
+
         this.nativeSwarm = NativeSwarm();
 
         this.nativeSwarm.join(id);
