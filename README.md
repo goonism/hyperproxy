@@ -14,7 +14,7 @@
 
 # Goal
 
-
+Check out this [post](https://louisgv.me/2018/blog/dat-hyperproxy-concept/)
 
 # Setup
 
