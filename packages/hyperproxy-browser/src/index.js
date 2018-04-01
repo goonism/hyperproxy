@@ -1,10 +1,14 @@
-var swarm = require('webrtc-swarm');
-var signalhub = require('signalhubws');
+const swarm = require('webrtc-swarm');
+const signalhub = require('signalhubws');
 
-var hub = signalhub('dat://7235b8fdbb967d1b0b8e9fe3bbed54acc3fa3c8ed58ff55af1a66ab2d2e5aba1', ['wss://127.0.0.1:9999']);
+const hub = signalhub('hyperproxy', [
+    'ws://127.0.0.1:9999',
+    'wss://bfnfjzdkbd.localtunnel.me'
+]);
 
-var sw = swarm(hub);
+const sw = swarm(hub);
 
+/* Swarm Event */
 sw.on('close', function(e) {
     sw.close();
 });
@@ -22,3 +26,55 @@ sw.on('disconnect', function(peer, id) {
     console.log('disconnected from a peer:', id);
     console.log('total peers:', sw.peers.length);
 });
+/* END Swarm Event */
+
+/* WINDOW EVENT */
+window.addEventListener('load', init);
+
+/* END WINDOW EVENT */
+
+function init() {
+    let activeURL,
+        activeHash,
+        shortHash;
+
+    document.querySelector('#swarm-id').innerHTML = sw.me;
+
+    const dataListEl = document.querySelector('#data');
+
+    document.querySelector('#subscribe').addEventListener('click', () => {
+        activeURL = document.querySelector('#daturl').value;
+
+        activeHash = activeURL.substring(6);
+
+        shortHash = activeHash.slice(0, 4) + '...' + activeHash.slice(-5);
+
+        document.querySelector('#active-daturl').innerHTML = shortHash;
+
+        document.querySelector('#send').disabled = false;
+
+        hub.subscribe(activeURL).on('data', ({sender, message}) => {
+            dataListEl.appendChild(createElement(`
+                <li>${sender} @ ${shortHash} : ${message}</li>
+            `));
+        });
+    });
+
+    document.querySelector('#send').addEventListener('click', () => {
+        const message = document.querySelector('#message').value;
+
+        hub.broadcast(activeURL, {
+            sender: sw.me,
+            message
+        });
+    });
+}
+
+// Create html element. Code adapted from
+// https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
+function createElement(html) {
+    const template = document.createElement('template');
+    html = html.trim(); // Never return a text node of whitespace as the result
+    template.innerHTML = html;
+    return template.content.firstChild;
+}

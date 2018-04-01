@@ -1,8 +1,51 @@
 <html>
-  <head>
+
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, 	user-scalable=no" />
+
+    <title>
+        HYPERPROXY BROWSER
+    </title>
+
+    <link rel="shortcut icon"
+          href="./media/icon.png">
+
+    <link href="https://fonts.googleapis.com/css?family=Arimo:400,700"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="./index.css">
+
     <script src="./lib/bundle.js"></script>
-  </head>
-  <body>
-      <h1>BROWSER ONLINE </h1>
-  </body>
+</head>
+
+<body>
+    <h1><span class="bold-font">HYPERPROXY</span><span class="light-font">BROWSER</span></h1>
+
+    <h2>UID-<span id="swarm-id" class="light-font"></span></h2>
+
+    <h3><span class="bold-font">URL</span><span id="active-daturl" class="light-font"></span></h3>
+    <div>
+        <input id="daturl"
+               type="text"
+               value="dat://7235b8fdbb967d1b0b8e9fe3bbed54acc3fa3c8ed58ff55af1a66ab2d2e5aba1"
+               placeholder="Dat Public Key">
+        <button id="subscribe"
+                name="button">SUBSCRIBE</button>
+
+        <input id="message"
+               type="text"
+               value="HELLO"
+               placeholder="Say something">
+        <button id="send"
+                disabled
+                name="button">SEND</button>
+    </div>
+
+    <hr>
+
+    <ol id="data">
+    </ol>
+</body>
+
 </html>
