@@ -18,6 +18,14 @@ Check out this [post](https://louisgv.me/2018/blog/dat-hyperproxy-concept/)
 
 # Setup
 
+Install global tooling dependencies:
+
+```
+npm i -g lerna browser-sync
+```
+
+Get `yarn`, either via package or via npm.
+
 Run these anywhere within hyperproxy:
 
 ```
