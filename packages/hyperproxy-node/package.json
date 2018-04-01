@@ -1,0 +1,27 @@
+{
+  "name": "hyperproxy-node",
+  "version": "1.0.0",
+  "description": "Proxying node that route request to TCP/UDP nodes.",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node src/index.js",
+    "watch": "babel-watch src/index.js",
+    "build": "babel src -d lib",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goonism/hyperproxy.git"
+  },
+  "author": "@lgvichy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goonism/hyperproxy/issues"
+  },
+  "homepage": "https://github.com/goonism/hyperproxy#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-watch": "^2.0.7"
+  }
+}

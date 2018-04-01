@@ -1,0 +1,30 @@
+{
+  "name": "hyperproxy-browser",
+  "version": "1.0.0",
+  "description": "Connect to Hyper nodes via WebRTC.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify src/index.js > lib/bundle.js",
+    "watch": "browser-sync start --no-open --server --files '.' && watchify src/index.js -o lib/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goonism/hyperproxy.git"
+  },
+  "author": "@stayfun_",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goonism/hyperproxy/issues"
+  },
+  "homepage": "https://github.com/goonism/hyperproxy#readme",
+  "dependencies": {
+    "signalhub": "^4.9.0",
+    "signalhubws": "^1.0.3",
+    "webrtc-swarm": "^2.9.0"
+  },
+  "devDependencies": {
+    "browserify": "^16.1.0",
+    "watchify": "^3.11.0"
+  }
+}

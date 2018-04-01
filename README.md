@@ -19,7 +19,6 @@ Check out this [post](https://louisgv.me/2018/blog/dat-hyperproxy-concept/)
 # Setup
 
 
-
 # Credits
 
 Logo created using [DotGrid](https://github.com/hundredrabbits/Dotgrid) by [Devine Lu Linvega](https://twitter.com/neauoire)
