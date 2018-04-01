@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify src/index.js > lib/bundle.js",
-    "watch": "watchify src/index.js -o ./lib/bundle.js & browser-sync start --no-open --server --files '.'"
+    "build": "browserify src/index.js > index.js",
+    "watch": "watchify src/index.js -o index.js & browser-sync start --no-open --server --files '.'"
   },
   "repository": {
     "type": "git",
