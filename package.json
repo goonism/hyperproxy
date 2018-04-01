@@ -5,7 +5,7 @@
         "test": "lerna run test",
         "prepare": "lerna run prepare",
         "clean": "rimraf packages/**/lib",
-        "watch": "lerna run watch"
+        "watch": "lerna run watch --parallel"
     },
     "devDependencies": {
         "lerna": "^2.5.1",

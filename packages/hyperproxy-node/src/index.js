@@ -1,6 +1,6 @@
 const http = require('http');
 
-const port = process.env.PORT || process.env.NODE_PORT || 8000;
+const port = process.env.PORT || process.env.NODE_PORT || 8001;
 
 const onRequest = (req, res,) => {
 
@@ -13,7 +13,7 @@ const onRequest = (req, res,) => {
 
     res.writeHead(200, headers);
 
-    res.write("HUB SERVICE ONLINE");
+    res.write("NODE SERVICE ONLINE");
 
     res.end();
 };
