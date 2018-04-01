@@ -1,23 +1,12 @@
-const http = require('http');
+import Dat from 'dat-node';
 
-const port = process.env.PORT || process.env.NODE_PORT || 8001;
+// 1. Tell Dat where to download the files
+Dat('/tmp/storage', {
+  // 2. Tell Dat what link I want
+  key: '<dat-key>' // (a 64 character hash from above)
+}, function (err, dat) {
+  if (err) throw err;
 
-const onRequest = (req, res,) => {
-
-    const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Content-Type': 'application/json'
-    };
-
-    res.writeHead(200, headers);
-
-    res.write("NODE SERVICE ONLINE");
-
-    res.end();
-};
-
-http.createServer(onRequest).listen(port);
-
-console.log(`Listening on localhost:${port}`);
+  // 3. Join the network & download (files are automatically downloaded)
+  dat.joinNetwork();
+});

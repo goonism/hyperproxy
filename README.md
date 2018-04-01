@@ -18,6 +18,12 @@ Check out this [post](https://louisgv.me/2018/blog/dat-hyperproxy-concept/)
 
 # Setup
 
+Run these anywhere within hyperproxy:
+
+```
+lerna bootstrap
+lerna run watch
+```
 
 # Credits
 
