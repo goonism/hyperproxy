@@ -19,7 +19,11 @@
     "url": "https://github.com/goonism/hyperproxy/issues"
   },
   "homepage": "https://github.com/goonism/hyperproxy#readme",
-  "dependencies": {},
+  "dependencies": {
+    "bufferutil": "^3.0.3",
+    "utf-8-validate": "^4.0.0",
+    "uws": "^9.14.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

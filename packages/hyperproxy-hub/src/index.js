@@ -1,23 +1,37 @@
-const http = require('http');
+import WebSocket from 'uws';
 
-const port = process.env.PORT || process.env.NODE_PORT || 8000;
+const port = process.env.PORT || process.env.NODE_PORT || 9999;
 
-const onRequest = (req, res,) => {
+const wss = new WebSocketServer({port});
 
-    const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Content-Type': 'application/json'
-    };
+function onConnection(ws) {
 
-    res.writeHead(200, headers);
+    // Data token
+    const app = ws.upgradeReq.url.split('?')[0].split('#')[0].substring(1).split('/');
 
-    res.write("HUB SERVICE ONLINE");
+    ws.app = app[app.length - 1];
 
-    res.end();
-};
+    ws.on('message', (data) => {
+        let jsond;
+        try {
+            jsond = JSON.parse(data);
+        } catch (e) {
+            console.error(e.message);
+            return;
+        }
 
-http.createServer(onRequest).listen(port);
+        console.log('Got message', jsond);
 
-console.log(`Listening on localhost:${port}`);
+        wss.clients.forEach((client) => {
+            if (jsond.app === client.app) {
+                console.log('Broadcasting on app: %s', client.app);
+                client.send(data);
+            }
+        });
+    });
+}
+
+wss.on('connection', onConnection);
+wss.on('listening', function() {
+    console.log(`HyperProxy Hub running on ${port}`);
+});
