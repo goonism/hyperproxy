@@ -29,6 +29,9 @@ function init() {
         document.querySelector('#send').disabled = false;
 
         client.hub.subscribe(activeHash).on('data', ({sender, message}) => {
+
+            // TODO: Remove this commented out code @lgvichy https://github.com/goonism/hyperproxy/issues/7
+            // console.log(Buffer.from(message).toString('utf8'));
             dataListEl.appendChild(createElement(`
                 <li>${sender} @ ${shortHash} : ${message}</li>
             `));

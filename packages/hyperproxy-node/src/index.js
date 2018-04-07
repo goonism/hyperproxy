@@ -3,13 +3,13 @@ import Swarm from 'webrtc-swarm';
 import SignalHub from 'signalhubws';
 import HyperproxyHubClient from 'hyperproxy-hub-client';
 import Wrtc from 'wrtc';
-import {w3cwebsocket} from 'websocket';
+import {w3cwebsocket as WebSocket} from 'websocket';
 
+// TODO: Remove this commented out code @lgvichy https://github.com/goonism/hyperproxy/issues/7
 //40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9
-class HyperproxyNode {
+export default class HyperproxyNode {
     constructor(channelName) {
         this.datResolve = this._connectToDat(channelName);
-        // TODO implement swarm @coldsauce https://github.com/goonism/hyperproxy/issues/6
         this._connectToHub(channelName);
     }
 
@@ -27,12 +27,21 @@ class HyperproxyNode {
     }
 
     async _connectToHub(key) {
-        const client = new HyperproxyHubClient(w3cwebsocket, Wrtc)
-        client.hub.subscribe(key).on('data', async ({sender, message}) => {
+        const client = new HyperproxyHubClient(WebSocket, Wrtc)
+        client.hub.subscribe(key).on('data', async ({sender, message, type}) => {
             try {
+                if (type === 'response') {
+                    return;
+                }
                 const file = await this.readFile(message);
-                sender.emit(file);
+                // TODO @lgvichy https://github.com/goonism/hyperproxy/issues/24
+                client.hub.broadcast(key, {
+                    sender: client.swarm.me,
+                    type: 'response',
+                    message: file
+                });
             } catch(err) {
+                console.error("The hub experienced an error! ", err);
                 return;
             }
         });
@@ -60,4 +69,5 @@ class HyperproxyNode {
     }
 }
 
+// TODO: Remove this commented out code @lgvichy https://github.com/goonism/hyperproxy/issues/7
 // const hp = new HyperproxyNode('40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9');
