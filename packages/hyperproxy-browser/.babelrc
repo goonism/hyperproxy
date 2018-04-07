@@ -1,4 +1,17 @@
 {
-  "presets": ["env"],
-  "plugins": ["transform-object-rest-spread"]
+    "presets": [
+        ["env", {
+            "targets": {
+                "browsers": ["last 2 Chrome versions"]
+            }
+        }]
+    ],
+    "plugins": [
+        [
+            "transform-runtime", {
+                "polyfill": false,
+                "regenerator": true
+            }
+        ]
+    ]
 }

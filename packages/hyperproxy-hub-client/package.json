@@ -1,11 +1,10 @@
 {
-  "name": "hyperproxy-node",
+  "name": "hyperproxy-hub-client",
   "version": "1.0.0",
-  "description": "Proxying node that route request to TCP/UDP nodes.",
+  "description": "Client module connecting to the hyperproxy-hub.",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node src/index.js",
-    "watch": "babel-watch src/index.js",
+    "watch": "babel src -d lib --watch",
     "build": "babel src -d lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,15 +18,18 @@
     "url": "https://github.com/goonism/hyperproxy/issues"
   },
   "homepage": "https://github.com/goonism/hyperproxy#readme",
+  "dependencies": {
+    "bufferutil": "^3.0.3",
+    "hyperproxy-config": "^1.0.0",
+    "signalhubws": "^1.0.3",
+    "utf-8-validate": "^4.0.0",
+    "uws": "^9.14.0",
+    "webrtc-swarm": "^2.9.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-watch": "^2.0.7"
-  },
-  "dependencies": {
-    "dat-node": "^3.5.8",
-    "wrtc": "^0.1.1"
+    "babel-preset-env": "^1.6.1"
   }
 }

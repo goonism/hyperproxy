@@ -1,31 +1,5 @@
-const swarm = require('webrtc-swarm');
-const signalhub = require('signalhubws');
-
-const {HUB_URL} = require('hyperproxy-config');
-
-const hub = signalhub('hyperproxy', [HUB_URL]);
-
-const sw = swarm(hub);
-
-/* Swarm Event */
-sw.on('close', function(e) {
-    sw.close();
-});
-
-sw.on('message', function(m) {
-    console.log(m);
-});
-
-sw.on('peer', function(peer, id) {
-    console.log('connected to a new peer:', id);
-    console.log('total peers:', sw.peers.length);
-});
-
-sw.on('disconnect', function(peer, id) {
-    console.log('disconnected from a peer:', id);
-    console.log('total peers:', sw.peers.length);
-});
-/* END Swarm Event */
+import "babel-polyfill";
+import HyperproxyHubClient from 'hyperproxy-hub-client';
 
 /* WINDOW EVENT */
 window.addEventListener('load', init);
@@ -37,9 +11,11 @@ function init() {
         activeHash,
         shortHash;
 
-    document.querySelector('#swarm-id').innerHTML = sw.me;
+    const client = new HyperproxyHubClient();
 
     const dataListEl = document.querySelector('#data');
+
+    document.querySelector('#swarm-id').innerHTML = client.swarm.me;
 
     document.querySelector('#subscribe').addEventListener('click', () => {
         activeURL = document.querySelector('#daturl').value;
@@ -52,7 +28,7 @@ function init() {
 
         document.querySelector('#send').disabled = false;
 
-        hub.subscribe(activeURL).on('data', ({sender, message}) => {
+        client.hub.subscribe(activeURL).on('data', ({sender, message}) => {
             dataListEl.appendChild(createElement(`
                 <li>${sender} @ ${shortHash} : ${message}</li>
             `));
@@ -62,8 +38,8 @@ function init() {
     document.querySelector('#send').addEventListener('click', () => {
         const message = document.querySelector('#message').value;
 
-        hub.broadcast(activeURL, {
-            sender: sw.me,
+        client.hub.broadcast(activeURL, {
+            sender: client.swarm.me,
             message
         });
     });
