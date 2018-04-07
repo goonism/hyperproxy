@@ -8164,9 +8164,9 @@ function extend() {
 const swarm = require('webrtc-swarm');
 const signalhub = require('signalhubws');
 
-const hub = signalhub('hyperproxy', [
-    'wss://odd-husky-93.localtunnel.me'
-]);
+const {HUB_URL} = require('hyperproxy-config');
+
+const hub = signalhub('hyperproxy', [HUB_URL]);
 
 const sw = swarm(hub);
 
@@ -8241,4 +8241,15 @@ function createElement(html) {
     return template.content.firstChild;
 }
 
-},{"signalhubws":30,"webrtc-swarm":38}]},{},[41]);
+},{"hyperproxy-config":42,"signalhubws":30,"webrtc-swarm":38}],42:[function(require,module,exports){
+module.exports = {
+    HUB_URL: 'wss://hyperproxy-hub-nsspddnqun.now.sh'
+};
+
+
+// For local development of the hub
+// module.exports = {
+//     HUB_URL: 'wss://localhost:9999'
+// };
+
+},{}]},{},[41]);
