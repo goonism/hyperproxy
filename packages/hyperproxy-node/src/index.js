@@ -1,10 +1,16 @@
 import Dat from 'dat-node';
+import Swarm from 'webrtc-swarm';
+import SignalHub from 'signalhubws';
+import HyperproxyHubClient from 'hyperproxy-hub-client';
+import Wrtc from 'wrtc';
+import {w3cwebsocket} from 'websocket';
 
 //40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9
 class HyperproxyNode {
     constructor(channelName) {
         this.datResolve = this._connectToDat(channelName);
         // TODO implement swarm @coldsauce https://github.com/goonism/hyperproxy/issues/6
+        this._connectToHub(channelName);
     }
 
     async readFile(fileName) {
@@ -17,6 +23,18 @@ class HyperproxyNode {
                 }
                 resolve(content);
             });
+        });
+    }
+
+    async _connectToHub(key) {
+        const client = new HyperproxyHubClient(w3cwebsocket, Wrtc)
+        client.hub.subscribe(key).on('data', async ({sender, message}) => {
+            try {
+                const file = await this.readFile(message);
+                sender.emit(file);
+            } catch(err) {
+                return;
+            }
         });
     }
 
@@ -42,3 +60,4 @@ class HyperproxyNode {
     }
 }
 
+// const hp = new HyperproxyNode('40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9');
