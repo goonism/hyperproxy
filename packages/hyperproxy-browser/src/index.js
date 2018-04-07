@@ -11,7 +11,7 @@ function init() {
         activeHash,
         shortHash;
 
-    const client = new HyperproxyHubClient();
+    const client = new HyperproxyHubClient(window.WebSocket);
 
     const dataListEl = document.querySelector('#data');
 
@@ -28,7 +28,7 @@ function init() {
 
         document.querySelector('#send').disabled = false;
 
-        client.hub.subscribe(activeURL).on('data', ({sender, message}) => {
+        client.hub.subscribe(activeHash).on('data', ({sender, message}) => {
             dataListEl.appendChild(createElement(`
                 <li>${sender} @ ${shortHash} : ${message}</li>
             `));
@@ -38,7 +38,7 @@ function init() {
     document.querySelector('#send').addEventListener('click', () => {
         const message = document.querySelector('#message').value;
 
-        client.hub.broadcast(activeURL, {
+        client.hub.broadcast(activeHash, {
             sender: client.swarm.me,
             message
         });
