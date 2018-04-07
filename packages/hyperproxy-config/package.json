@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Global Default Configuration Module for the Hyperproxy",
   "main": "index.js",
-  "scripts": {
-    "watch": ""
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/goonism/hyperproxy.git"
