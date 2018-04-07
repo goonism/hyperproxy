@@ -3,7 +3,7 @@ const signalhub = require('signalhubws');
 
 const hub = signalhub('hyperproxy', [
     'ws://127.0.0.1:9999',
-    'wss://qflmpwpxhd.localtunnel.me'
+    'wss://ordinary-rattlesnake-28.localtunnel.me'
 ]);
 
 const sw = swarm(hub);
