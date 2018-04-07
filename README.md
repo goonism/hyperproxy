@@ -30,7 +30,8 @@ Run these anywhere within hyperproxy:
 
 ```
 lerna bootstrap
-lerna run watch
+lerna run build
+lerna run --parallel watch
 ```
 
 # Credits
