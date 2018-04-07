@@ -1,4 +1,4 @@
 node_modules/
 lerna-debug.log
 packages/**/lib
-yarn-error.log
+**/yarn-error.log
