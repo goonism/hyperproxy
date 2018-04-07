@@ -1,0 +1,19 @@
+{
+  "name": "hyperproxy-config",
+  "version": "1.0.0",
+  "description": "Global Default Configuration Module for the Hyperproxy",
+  "main": "index.js",
+  "scripts": {
+    "watch": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goonism/hyperproxy.git"
+  },
+  "author": "@stayfun_",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goonism/hyperproxy/issues"
+  },
+  "homepage": "https://github.com/goonism/hyperproxy#readme"
+}

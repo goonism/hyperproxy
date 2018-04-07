@@ -1,9 +1,9 @@
 const swarm = require('webrtc-swarm');
 const signalhub = require('signalhubws');
 
-const hub = signalhub('hyperproxy', [
-    'wss://hyperproxy-hub-nsspddnqun.now.sh'
-]);
+const {HUB_URL} = require('hyperproxy-config');
+
+const hub = signalhub('hyperproxy', [HUB_URL]);
 
 const sw = swarm(hub);
 
