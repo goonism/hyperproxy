@@ -1,0 +1,35 @@
+{
+  "name": "hyperproxy-hub-client",
+  "version": "1.0.0",
+  "description": "Client module connecting to the hyperproxy-hub.",
+  "main": "index.js",
+  "scripts": {
+    "watch": "babel src -d lib --watch",
+    "build": "babel src -d lib",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goonism/hyperproxy.git"
+  },
+  "author": "@lgvichy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goonism/hyperproxy/issues"
+  },
+  "homepage": "https://github.com/goonism/hyperproxy#readme",
+  "dependencies": {
+    "bufferutil": "^3.0.3",
+    "hyperproxy-config": "^1.0.0",
+    "signalhubws": "^1.0.3",
+    "utf-8-validate": "^4.0.0",
+    "uws": "^9.14.0",
+    "webrtc-swarm": "^2.9.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1"
+  }
+}
