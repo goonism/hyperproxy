@@ -3,11 +3,12 @@ Thanks for filing an issue 😄 ! Before you submit, please read the following:
 
 Search open/closed issues before submitting since someone might have asked the same thing before!
 
-Issues on GitHub are only related to problems of Arbiter itself and we cannot answer
+Issues on GitHub are only related to problems of Hyperproxy itself and we cannot answer
 support questions here.
 -->
 
 Choose one: is this a bug report or feature request?
+If it's a feature request, ignore all of the stuff below.
 
 <!--- Provide a general summary of the issue in the title above -->
 
