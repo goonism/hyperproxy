@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/goonism/hyperproxy.git"
   },
-  "author": "@stayfun_",
+  "author": "@lgvichy",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/goonism/hyperproxy/issues"
