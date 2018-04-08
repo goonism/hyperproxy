@@ -5,8 +5,8 @@ import {HUB_NAME, HUB_URL} from 'hyperproxy-config';
 
 export default class HyperproxyHubClient {
 
-    constructor(wrtc = null, name = HUB_NAME, url = HUB_URL) {
-        this.hub = signalhub(name, [url]);
+    constructor(wsClass, wrtc = null, name = HUB_NAME, url = HUB_URL) {
+        this.hub = signalhub(name, [url], wsClass);
         this.swarm = wrtc
             ? swarm(this.hub, {wrtc})
             : swarm(this.hub);
