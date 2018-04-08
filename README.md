@@ -9,12 +9,14 @@
 </h1>
 
 <h2 align="center">
-    Dat hybrid middleman proxy
+    Dat WebRTC to TCP/UDP proxy
 </h2>
 
 # Goal
 
 Check out this [post](https://louisgv.me/2018/blog/dat-hyperproxy-concept/)
+
+Check out the [WIP RFC](https://docs.google.com/document/d/1zvGN7hmeOVHOaQjCUr3XuNLZxZxvOn1u0GwVhR_ucB4/edit?usp=sharing)
 
 # Setup
 

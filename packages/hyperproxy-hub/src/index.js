@@ -1,13 +1,22 @@
 import WebSocket from 'uws';
 
-const port = 9999;
+import {HUB_PORT as port, HUB_MSG_TYPE} from 'hyperproxy-config';
+import HyperProxyNode from 'hyperproxy-node';
+
+const datMap = new Map();
 
 const wss = new WebSocket.Server({port});
 
 function onConnection(ws) {
 
     // Data token
-    const app = ws.upgradeReq.url.split('?')[0].split('#')[0].substring(1).split('/');
+    const app = ws
+        .upgradeReq
+        .url
+        .split('?')[0]
+        .split('#')[0]
+        .substring(1)
+        .split('/');
 
     console.log('CONNECTED TO APP: ', app);
 
@@ -25,16 +34,22 @@ function onConnection(ws) {
         console.log('Got message', jsond);
 
         // if not all channel and no HyperProxy-node has been assigned
-        if (jsond.channel !== 'all' && !datMap[jsond.channel]) {
-            datMap[jsond.channel] = new HyperProxyNode(jsond.channel);
+        if (jsond.channel !== 'all' && jsond.message.type === HUB_MSG_TYPE.JOIN) {
+            if (!datMap[jsond.channel]) {
+                datMap[jsond.channel] = new HyperProxyNode(jsond.channel);
+            }
+
+            return;
         }
 
-        wss.clients.forEach((client) => {
-            if (jsond.app === client.app) {
-                console.log('Broadcasting on app: %s', client.app);
-                client.send(data);
-            }
-        });
+        wss
+            .clients
+            .forEach((client) => {
+                if (jsond.app === client.app) {
+                    console.log('Broadcasting on app: %s', client.app);
+                    client.send(data);
+                }
+            });
     });
 }
 

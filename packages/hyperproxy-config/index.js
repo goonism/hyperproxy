@@ -17,5 +17,11 @@ function getHubURL() {
 module.exports = Object.freeze({
     HUB_PORT: PORT,
     HUB_NAME: 'hyperproxy',
-    HUB_URL: getHubURL()
+    HUB_URL: getHubURL(),
+    HUB_MSG_TYPE: {
+        JOIN: 'JOIN',
+        REQUEST: 'REQUEST',
+        RESPONSE: 'RESPONSE',
+        DISCONNECT: 'DISCONNECT'
+    }
 });

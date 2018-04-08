@@ -5,14 +5,20 @@ import HyperproxyHubClient from 'hyperproxy-hub-client';
 import Wrtc from 'wrtc';
 import {w3cwebsocket as WebSocket} from 'websocket';
 
-// TODO: Remove this commented out code @lgvichy https://github.com/goonism/hyperproxy/issues/7
-//40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9
+import {HUB_MSG_TYPE} from 'hyperproxy-config';
+
+// TODO: Remove this commented out code @lgvichy
+// https://github.com/goonism/hyperproxy/issues/7
+// 40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9
 export default class HyperproxyNode {
     constructor(channelName) {
         this.datResolve = this._connectToDat(channelName);
         this._connectToHub(channelName);
     }
 
+    /*
+        Read a file from the subscribed dat archive asyncornously
+    */
     async readFile(fileName) {
         await this.datResolve;
         return new Promise((resolve, reject) => {
@@ -26,27 +32,42 @@ export default class HyperproxyNode {
         });
     }
 
+    /*
+        Connect to the hub under the specified key.
+    */
     async _connectToHub(key) {
-        const client = new HyperproxyHubClient(WebSocket, Wrtc)
-        client.hub.subscribe(key).on('data', async ({sender, message, type}) => {
+        const client = new HyperproxyHubClient(WebSocket, Wrtc);
+        client.hub.subscribe(key).on('data', (data) => {
             try {
-                if (type === 'response') {
-                    return;
-                }
-                const file = await this.readFile(message);
-                // TODO @lgvichy https://github.com/goonism/hyperproxy/issues/24
-                client.hub.broadcast(key, {
-                    sender: client.swarm.me,
-                    type: 'response',
-                    message: file
-                });
-            } catch(err) {
-                console.error("The hub experienced an error! ", err);
-                return;
+                this._handleData(client, key, data);
+            } catch (e) {
+                console.error("ERROR in hyperproxy-node! ", err);
             }
         });
     }
 
+    /*
+        Handle any peer data by getting them from TCP/UDP dat
+    */
+    async _handleData(client, key, {from, body, type}) {
+        if (type === HUB_MSG_TYPE.RESPONSE) {
+            return;
+        }
+
+        if (type === HUB_MSG_TYPE.REQUEST) {
+            const file = await this.readFile(body);
+            // TODO @lgvichy https://github.com/goonism/hyperproxy/issues/24
+            client.hub.broadcast(key, {
+                from: client.swarm.me,
+                type: HUB_MSG_TYPE.RESPONSE,
+                body: file
+            });
+        }
+    }
+
+    /*
+        Connect to the main dat archive
+    */
     _connectToDat(key) {
         const datConfig = {
             key,
@@ -69,5 +90,6 @@ export default class HyperproxyNode {
     }
 }
 
-// TODO: Remove this commented out code @lgvichy https://github.com/goonism/hyperproxy/issues/7
-// const hp = new HyperproxyNode('40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9');
+// TODO: Remove this commented out code @lgvichy
+// https://github.com/goonism/hyperproxy/issues/7 const hp = new
+// HyperproxyNode('40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9');

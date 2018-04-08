@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node src/index.js",
-    "watch": "babel-watch src/index.js",
+    "watch": "babel src -d lib --watch",
     "build": "babel src -d lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "dat-node": "^3.5.8",
+    "hyperproxy-config": "^1.0.0",
     "wrtc": "^0.1.1"
   }
 }
