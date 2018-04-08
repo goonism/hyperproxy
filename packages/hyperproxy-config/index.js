@@ -2,11 +2,14 @@
     Return Hub Variable
 */
 
+// This variable can be toggled on/off for local development.
+const LOCAL = true;
+
 const PORT = process.env.PORT || process.env.NODE_PORT || 9999;
 
 // Construct hub url based on environment
 function getHubURL() {
-    if (process.env.LOCAL) {
+    if (LOCAL) {
         return `ws://localhost:${PORT}`;
     }
     else {
