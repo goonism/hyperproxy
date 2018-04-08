@@ -5,6 +5,7 @@ module.exports = Object.freeze({
 
 
 // For local development of the hub
-// module.exports = {
-//     HUB_URL: 'wss://localhost:9999'
-// };
+// module.exports = Object.freeze({
+//     HUB_NAME: 'hyperproxy',
+//     HUB_URL: 'ws://localhost:9999'
+// });

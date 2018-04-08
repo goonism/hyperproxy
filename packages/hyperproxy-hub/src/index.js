@@ -24,6 +24,11 @@ function onConnection(ws) {
 
         console.log('Got message', jsond);
 
+        // if not all channel and no HyperProxy-node has been assigned
+        if (jsond.channel !== 'all' && !datMap[jsond.channel]) {
+            datMap[jsond.channel] = new HyperProxyNode(jsond.channel);
+        }
+
         wss.clients.forEach((client) => {
             if (jsond.app === client.app) {
                 console.log('Broadcasting on app: %s', client.app);
