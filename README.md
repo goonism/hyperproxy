@@ -34,6 +34,14 @@ lerna run build
 lerna run --parallel watch
 ```
 
+# Run Modes
+
+To run the hub in local:
+
+```
+LOCAL=true lerna run watch --parallel
+```
+
 # Credits
 
 Logo created using [DotGrid](https://github.com/hundredrabbits/Dotgrid) by [Devine Lu Linvega](https://twitter.com/neauoire)
