@@ -16,53 +16,58 @@ export default class HyperproxyNode {
         this._connectToHub(channelName);
     }
 
+    /*
+        Read a file from the subscribed dat archive asyncornously
+    */
     async readFile(fileName) {
         await this.datResolve;
         return new Promise((resolve, reject) => {
-            this
-                .dat
-                .archive
-                .readFile(fileName, (err, content) => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    resolve(content);
-                });
+            this.dat.archive.readFile(fileName, (err, content) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(content);
+            });
         });
     }
 
+    /*
+        Connect to the hub under the specified key.
+    */
     async _connectToHub(key) {
         const client = new HyperproxyHubClient(WebSocket, Wrtc);
-        client
-            .hub
-            .subscribe(key)
-            .on('data', (data) => this._handleData(client, key, data));
+        client.hub.subscribe(key).on('data', (data) => {
+            try {
+                this._handleData(client, key, data);
+            } catch (e) {
+                console.error("ERROR in hyperproxy-node! ", err);
+            }
+        });
     }
 
+    /*
+        Handle any peer data by getting them from TCP/UDP dat
+    */
     async _handleData(client, key, {from, body, type}) {
-        try {
-            if (type === HUB_MSG_TYPE.RESPONSE) {
-                return;
-            }
-
-            if (type === HUB_MSG_TYPE.REQUEST) {
-                const file = await this.readFile(body);
-                // TODO @lgvichy https://github.com/goonism/hyperproxy/issues/24
-                client
-                    .hub
-                    .broadcast(key, {
-                        from: client.swarm.me,
-                        type: HUB_MSG_TYPE.RESPONSE,
-                        body: file
-                    });
-            }
-        } catch (err) {
-            console.error("ERROR in hyperproxy-node! ", err);
+        if (type === HUB_MSG_TYPE.RESPONSE) {
             return;
+        }
+
+        if (type === HUB_MSG_TYPE.REQUEST) {
+            const file = await this.readFile(body);
+            // TODO @lgvichy https://github.com/goonism/hyperproxy/issues/24
+            client.hub.broadcast(key, {
+                from: client.swarm.me,
+                type: HUB_MSG_TYPE.RESPONSE,
+                body: file
+            });
         }
     }
 
+    /*
+        Connect to the main dat archive
+    */
     _connectToDat(key) {
         const datConfig = {
             key,
