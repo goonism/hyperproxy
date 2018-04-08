@@ -1,6 +1,8 @@
 import "babel-polyfill";
 import HyperproxyHubClient from 'hyperproxy-hub-client';
 
+import {HUB_MSG_TYPE} from 'hyperproxy-config';
+
 /* WINDOW EVENT */
 window.addEventListener('load', init);
 
@@ -28,22 +30,32 @@ function init() {
 
         document.querySelector('#send').disabled = false;
 
-        client.hub.subscribe(activeHash).on('data', ({sender, message}) => {
+        client.hub.subscribe(activeHash).on('data', ({from, type, body}) => {
 
             // TODO: Remove this commented out code @lgvichy https://github.com/goonism/hyperproxy/issues/7
-            // console.log(Buffer.from(message).toString('utf8'));
+            // console.log(Buffer.from(data).toString('utf8'));
+            const value = body.type === 'Buffer'
+                ? Buffer.from(body).toString('utf8')
+                : body;
+
             dataListEl.appendChild(createElement(`
-                <li>${sender} @ ${shortHash} : ${message}</li>
+                <li>${from} @ ${shortHash} | ${type} : ${value}</li>
             `));
+        });
+
+        client.hub.broadcast(activeHash, {
+            from: client.swarm.me,
+            type: HUB_MSG_TYPE.JOIN
         });
     });
 
     document.querySelector('#send').addEventListener('click', () => {
-        const message = document.querySelector('#message').value;
+        const body = document.querySelector('#message').value;
 
         client.hub.broadcast(activeHash, {
-            sender: client.swarm.me,
-            message
+            from: client.swarm.me,
+            type: HUB_MSG_TYPE.REQUEST,
+            body
         });
     });
 }
