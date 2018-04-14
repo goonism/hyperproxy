@@ -1,5 +1,18 @@
-h1, h2, h3, h4, p, button, input {
+h1, h2, h3, h4, button, input {
     font-family: 'Arimo', sans-serif;
+}
+
+p, #dat-short-url {
+    font-family: 'Arimo', sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .light-font {
@@ -8,4 +21,172 @@ h1, h2, h3, h4, p, button, input {
 
 .bold-font {
     font-weight: bolder;
+}
+
+.hidden {
+    display: none;
+}
+
+.flex-column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-row-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.margin-right {
+    margin-right: 1em;
+}
+
+.margin-bottom {
+    margin-bottom: 1em;
+}
+
+section {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    transform: scale(0);
+    transition: 0.45s;
+    background: #C04848;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #480048, #C04848);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #480048, #C04848);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: white;
+}
+
+section p {
+    text-align: center;
+    margin: 1em;
+    width: 50vw;
+}
+
+section .text {
+    height: 100%;
+}
+
+section .action {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+section button {
+    width: 234px;
+}
+
+section .action {
+    height: 30%;
+}
+
+.enabled {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: scale(1) !important;
+}
+
+.github-corner {
+    z-index: 4;
+}
+
+#intro {
+    z-index: 3;
+}
+
+#url-form {
+    z-index: 2;
+}
+
+#browser {
+    z-index: 1;
+}
+
+#url-form .action {
+    height: 30%;
+}
+
+#dat-short-url {
+    position: relative;
+    padding: 15px 5px 15px 15px;
+    background: #333;
+    color: #eee;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    font-weight: 400;
+}
+
+#url-bar {
+    display: flex;
+    background: #333;
+    border-radius: 50px;
+}
+
+#browser .text {
+    position: absolute;
+    height: 18vh;
+    padding: 1em;
+    bottom: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#browser #send {
+    width: 150px;
+}
+
+#browser .floating-container {
+    width: 100%;
+    height: 90vh;
+}
+
+#content {
+    position: absolute;
+    width: 70vw;
+    height: 54vh;
+    background: white;
+    padding: 2em;
+    border-radius: 1em;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+
+}
+/* Adpated from https://codepen.io/fluxus/pen/xwDzB */
+
+input {
+    display: block;
+    position: relative;
+    width: 300px;
+    padding: 15px;
+    color: #377D6A;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    outline: none;
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 50px;
+    box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.2), 0 1px 1px rgba(255, 255, 255, 0.2);
+    font-weight: 400;
+    font-size: 1em;
+    transition: all .3s ease-in-out;
+    max-width: 50vw;
+}
+
+input:focus {
+    box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px rgba(255, 255, 255, 0.2);
 }

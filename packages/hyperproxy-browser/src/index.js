@@ -15,7 +15,9 @@ function init() {
 
     const client = new HyperproxyHubClient(window.WebSocket);
 
-    const dataListEl = document.querySelector('#data');
+    const introEl = document.querySelector('#intro');
+    const urlFormEl = document.querySelector('#url-form');
+    const contentEl = document.querySelector('#content');
 
     document.querySelector('#swarm-id').innerHTML = client.swarm.me;
 
@@ -31,6 +33,11 @@ function init() {
         document.querySelector('#send').disabled = false;
 
         client.hub.subscribe(activeHash).on('data', ({from, type, body}) => {
+            // console.log(from);
+            // console.log(HUB_MSG_TYPE);
+            if (type != HUB_MSG_TYPE.RESPONSE) {
+                return;
+            }
 
             // TODO: Remove this commented out code @lgvichy https://github.com/goonism/hyperproxy/issues/7
             // console.log(Buffer.from(data).toString('utf8'));
@@ -38,15 +45,15 @@ function init() {
                 ? Buffer.from(body).toString('utf8')
                 : body;
 
-            dataListEl.appendChild(createElement(`
-                <li>${from} @ ${shortHash} | ${type} : ${value}</li>
-            `));
+            contentEl.innerHTML = value;
         });
 
         client.hub.broadcast(activeHash, {
             from: client.swarm.me,
             type: HUB_MSG_TYPE.JOIN
         });
+
+        urlFormEl.classList.remove('enabled');
     });
 
     document.querySelector('#send').addEventListener('click', () => {
@@ -57,6 +64,10 @@ function init() {
             type: HUB_MSG_TYPE.REQUEST,
             body
         });
+    });
+
+    document.querySelector('#try-out').addEventListener('click', ()=>{
+        introEl.classList.remove('enabled');
     });
 }
 
