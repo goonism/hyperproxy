@@ -9,9 +9,7 @@ const HUB_PORT = process.env.HUB_PORT || 9999;
 
 const HUB_URL = process.env.LOCAL
     ? `ws://${HUB_IP}:${PORT}`
-    : `ws://${HUB_IP}`;
-
-console.log(HUB_URL);
+    : `wss://hyperproxy.network`;
 
 module.exports = Object.freeze({
     HUB_NAME,
