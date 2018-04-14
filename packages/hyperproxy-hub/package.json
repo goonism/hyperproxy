@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "WebRTC hub for hyperproxy browser.",
   "main": "index.js",
+  "bin": {
+    "hyperproxy-hub": "npm start"  
+  },
   "scripts": {
-    "start": "babel-node src/index.js",
+    "start": "node lib/index.js",
     "watch": "babel-watch src/index.js",
     "build": "babel src -d lib",
     "test": "echo \"Error: no test specified\" && exit 1"
