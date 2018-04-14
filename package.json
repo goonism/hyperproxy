@@ -5,11 +5,13 @@
         "test": "lerna run test",
         "prepare": "lerna run prepare",
         "clean": "rimraf packages/**/lib",
-        "watch": "lerna run watch --parallel"
+        "watch": "lerna run watch --parallel",
+        "pages": "gh-pages -d packages/hyperproxy-browser/public"
     },
     "devDependencies": {
         "lerna": "^2.5.1",
-        "rimraf": "^2.6.2"
+        "rimraf": "^2.6.2",
+        "gh-pages": "^1.1.0"
     },
     "workspaces": [
         "packages/*"
