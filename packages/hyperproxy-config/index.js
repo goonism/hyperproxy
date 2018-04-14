@@ -5,6 +5,8 @@
 const HUB_IP = process.env.HUB_IP || 'localhost';
 const HUB_PORT = process.env.HUB_PORT || 9999;
 
+console.log(HUB_IP, HUB_PORT);
+
 // Construct hub url based on environment
 function getHubURL() {
     if (process.env.LOCAL) {
