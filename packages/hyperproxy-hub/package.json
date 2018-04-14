@@ -4,7 +4,7 @@
   "description": "WebRTC hub for hyperproxy browser.",
   "main": "index.js",
   "bin": {
-    "hyperproxy-hub": "npm start"  
+    "hyperproxy-hub": "./index.js"  
   },
   "scripts": {
     "start": "node lib/index.js",
