@@ -2,21 +2,22 @@
     Return Hub Variable
 */
 
-const IP = process.env.IP || process.env.NODE_IP || '0.0.0.0';
-const PORT = process.env.PORT || process.env.NODE_PORT || 9999;
+const HUB_IP = process.env.HUB_IP || 'localhost';
+const HUB_PORT = process.env.HUB_PORT || 9999;
 
 // Construct hub url based on environment
 function getHubURL() {
     if (process.env.LOCAL) {
-        return `ws://localhost:${PORT}`;
+        return `ws://${HUB_IP}:${PORT}`;
     }
     else {
-        return `ws://${IP}`;
+        return `ws://${HUB_IP}`;
     }
 }
 
 module.exports = Object.freeze({
-    HUB_PORT: PORT,
+    HUB_IP,
+    HUB_PORT,
     HUB_NAME: 'hyperproxy',
     HUB_URL: getHubURL(),
     HUB_MSG_TYPE: {
