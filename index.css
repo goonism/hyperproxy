@@ -135,7 +135,7 @@ section .action {
 
 #browser .text {
     position: absolute;
-    height: 15vh;
+    height: 18vh;
     padding: 1em;
     bottom: 0;
     right: 0;
@@ -157,7 +157,7 @@ section .action {
 #content {
     position: absolute;
     width: 70vw;
-    height: 60vh;
+    height: 54vh;
     background: white;
     padding: 2em;
     border-radius: 1em;
