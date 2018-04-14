@@ -2,6 +2,7 @@
     Return Hub Variable
 */
 
+const IP = process.env.IP || process.env.NODE_IP || '0.0.0.0';
 const PORT = process.env.PORT || process.env.NODE_PORT || 9999;
 
 // Construct hub url based on environment
@@ -10,7 +11,7 @@ function getHubURL() {
         return `ws://localhost:${PORT}`;
     }
     else {
-        return 'wss://hyperproxy-hub-nsspddnqun.now.sh';
+        return `ws://${IP}`;
     }
 }
 
