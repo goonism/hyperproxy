@@ -33,8 +33,8 @@ function init() {
         document.querySelector('#send').disabled = false;
 
         client.hub.subscribe(activeHash).on('data', ({from, type, body}) => {
-            console.log(from);
-            console.log(HUB_MSG_TYPE);
+            // console.log(from);
+            // console.log(HUB_MSG_TYPE);
             if (type != HUB_MSG_TYPE.RESPONSE) {
                 return;
             }
@@ -52,7 +52,7 @@ function init() {
             from: client.swarm.me,
             type: HUB_MSG_TYPE.JOIN
         });
-        
+
         urlFormEl.classList.remove('enabled');
     });
 
