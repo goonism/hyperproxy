@@ -31,12 +31,34 @@ function init() {
         document.querySelector('#active-daturl').innerHTML = shortHash;
 
         document.querySelector('#send').disabled = false;
+        client.swarm.on('data', function(data) {
+            console.log("okay, now got data");
+        });
+        
+        
+
+        client.swarm.on('peer', function(peer) {
+            console.log("connected to peer", peer);
+            peer.on('data', function(data) {
+                console.log("got data from peer: ", data);
+            });
+        });       
+
+        
 
         client.hub.subscribe(activeHash).on('data', ({from, type, body}) => {
+            
+            if (type === HUB_MSG_TYPE.JOIN) {
+                client.swarm.remotes[from].on('data', function(data) {
+                    console.log("lmao dataaaaaa: ", data);
+                });
+            }
             // console.log(HUB_MSG_TYPE);
             if (type != HUB_MSG_TYPE.RESPONSE) {
                 return;
-            }
+            } 
+            
+            console.log("got here lmao");
 
             // TODO: Remove this commented out code @lgvichy https://github.com/goonism/hyperproxy/issues/7
             // console.log(Buffer.from(data).toString('utf8'));
@@ -46,15 +68,14 @@ function init() {
 
             contentEl.innerHTML = value;
         });
-
-        client.swarm.on('data', function (data) {
-            console.log('data: ' + data);
-        });
-
+        
+        console.log("SWWWWWWWAAAAAAAAAARRRRRRRRRMMMMMMMM");
+        console.log(client.swarm);
         client.hub.broadcast(activeHash, {
             from: client.swarm.me,
             type: HUB_MSG_TYPE.JOIN
         });
+        
 
         urlFormEl.classList.remove('enabled');
     });

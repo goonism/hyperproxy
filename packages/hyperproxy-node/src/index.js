@@ -52,6 +52,12 @@ export default class HyperproxyNode {
                 logger.error(e, 'cannot handle data');
             }
         });
+
+        await client.waitForHub('connect')
+        client.hub.broadcast(key, {
+            from: client.swarm.me,
+            type: HUB_MSG_TYPE.JOIN
+        });
     }
 
     _getPeerFrom(peerKey, peers) {
@@ -82,6 +88,7 @@ export default class HyperproxyNode {
             });
 
             console.log(client.swarm);
+            console.log(client.swarm.remotes[from]);
 
             client.swarm.remotes[from].send(Buffer.from(payload));
 

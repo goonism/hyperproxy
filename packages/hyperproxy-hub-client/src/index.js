@@ -13,8 +13,6 @@ export default class HyperproxyHubClient {
         this.swarm = wrtc
             ? swarm(this.hub, {wrtc})
             : swarm(this.hub);
-
-        this.handleSwarmEvent();
     }
 
     /* Waiting Coroutine */
@@ -24,36 +22,5 @@ export default class HyperproxyHubClient {
         return new Promise((resolve, reject) => {
             hub.once(eventName, resolve);
         });
-    }
-
-    /*
-        Handle swarm event reporting
-    */
-    handleSwarmEvent() {
-        const sw = this.swarm;
-
-        /* Swarm Event */
-        sw.on('close', function(e) {
-            sw.close();
-        });
-
-        sw.on('data', function(m) {
-            console.log(m);
-        });
-
-        sw.on('message', function(m) {
-            logger.info(m, 'new swarm message');
-        });
-
-        sw.on('peer', function(peer, id) {
-            logger.info(id, 'peer connected');
-            logger.info(sw.peers.length, 'total peers');
-        });
-
-        sw.on('disconnect', function(peer, id) {
-            logger.info(id, 'peer disconnected');
-            logger.info(sw.peers.length, 'total peers');
-        });
-        /* END Swarm Event */
     }
 }
