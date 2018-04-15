@@ -1,11 +1,19 @@
+import Pino from 'pino';
 import Dat from 'dat-node';
 import Swarm from 'webrtc-swarm';
 import SignalHub from 'signalhubws';
-import HyperproxyHubClient from 'hyperproxy-hub-client';
 import Wrtc from 'wrtc';
 import {w3cwebsocket as WebSocket} from 'websocket';
 
+import HyperproxyHubClient from 'hyperproxy-hub-client';
 import {HUB_MSG_TYPE} from 'hyperproxy-config';
+
+const pretty = Pino.pretty();
+pretty.pipe(process.stdout);
+const logger = Pino({
+    name: 'hyperproxy-node',
+    safe: true
+}, pretty);
 
 // TODO: Remove this commented out code @lgvichy
 // https://github.com/goonism/hyperproxy/issues/7
