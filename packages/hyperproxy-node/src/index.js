@@ -54,6 +54,9 @@ export default class HyperproxyNode {
         });
     }
 
+    _getPeerFrom(peerKey, peers) {
+        // peers.filter(peer => peer. == peerkKey)
+    }
     /*
         Handle any peer data by getting them from TCP/UDP dat
     */
@@ -63,13 +66,22 @@ export default class HyperproxyNode {
         }
 
         if (type === HUB_MSG_TYPE.REQUEST) {
+
+            console.log("DDDDDDDDDDDDDDDDDDD")
+            console.log(client.swarm.peers);
+            console.log("DDDDDDDDDDDDDDDDDDD")
             const file = await this.readFile(body);
             // TODO @lgvichy https://github.com/goonism/hyperproxy/issues/24
-            client.hub.broadcast(key, {
+            console.log(client.swarm.remotes[from].send(Buffer.from([{
                 from: client.swarm.me,
                 type: HUB_MSG_TYPE.RESPONSE,
                 body: file
-            });
+            }])));
+            // client.hub.broadcast(key, {
+            //     from: client.swarm.me,
+            //     type: HUB_MSG_TYPE.RESPONSE,
+            //     body: file
+            // });
         }
     }
 
