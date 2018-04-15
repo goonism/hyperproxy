@@ -33,9 +33,6 @@ function init() {
         document.querySelector('#send').disabled = false;
 
         client.hub.subscribe(activeHash).on('data', ({from, type, body}) => {
-            console.log("GOT GOT GOT ");
-            console.log(from);
-            console.log(type);
             // console.log(HUB_MSG_TYPE);
             if (type != HUB_MSG_TYPE.RESPONSE) {
                 return;
@@ -46,9 +43,12 @@ function init() {
             const value = body.type === 'Buffer'
                 ? Buffer.from(body).toString('utf8')
                 : body;
-            console.log(value);
 
             contentEl.innerHTML = value;
+        });
+
+        client.swarm.on('data', function (data) {
+            console.log('data: ' + data);
         });
 
         client.hub.broadcast(activeHash, {

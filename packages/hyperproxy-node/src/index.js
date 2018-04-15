@@ -67,16 +67,24 @@ export default class HyperproxyNode {
 
         if (type === HUB_MSG_TYPE.REQUEST) {
 
-            console.log("DDDDDDDDDDDDDDDDDDD")
+            console.log("DDDDDDDDDDDDDDDDDDD");
             console.log(client.swarm.peers);
-            console.log("DDDDDDDDDDDDDDDDDDD")
+            console.log(client.swarm);
+            console.log("DDDDDDDDDDDDDDDDDDD");
+
             const file = await this.readFile(body);
             // TODO @lgvichy https://github.com/goonism/hyperproxy/issues/24
-            console.log(client.swarm.remotes[from].send(Buffer.from([{
+
+            const payload = JSON.stringify({
                 from: client.swarm.me,
                 type: HUB_MSG_TYPE.RESPONSE,
                 body: file
-            }])));
+            });
+
+            console.log(client.swarm);
+
+            client.swarm.remotes[from].send(Buffer.from(payload));
+
             // client.hub.broadcast(key, {
             //     from: client.swarm.me,
             //     type: HUB_MSG_TYPE.RESPONSE,
