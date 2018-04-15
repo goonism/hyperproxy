@@ -20,8 +20,12 @@ const logger = Pino({
 // 40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9
 export default class HyperproxyNode {
     constructor(channelName) {
-        this.datResolve = this._connectToDat(channelName);
-        this._connectToHub(channelName);
+        try {
+            this.datResolve = this._connectToDat(channelName);
+            this._connectToHub(channelName);
+        } catch (e) {
+            logger.error(e, 'CONSTRUCTOR FAILED');
+        }
     }
 
     /*
@@ -49,7 +53,7 @@ export default class HyperproxyNode {
             try {
                 this._handleData(client, key, data);
             } catch (e) {
-                console.error("ERROR in hyperproxy-node! ", err);
+                logger.error(e, 'CANNOT HANDLE DATA');
             }
         });
     }
