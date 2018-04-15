@@ -35,20 +35,19 @@ function init() {
             console.log("okay, now got data");
         });
         
-        
-
-        client.swarm.on('peer', function(peer) {
-            console.log("connected to peer", peer);
-            peer.on('data', function(data) {
-                console.log("got data from peer: ", data);
-            });
-        });       
-
-        
+        // client.swarm.on('peer', function(peer) {
+        //     console.log("connected to peer", peer);
+        //     peer.on('data', function(data) {
+        //         console.log("got data from peer: ", data);
+        //     });
+        // });       
 
         client.hub.subscribe(activeHash).on('data', ({from, type, body}) => {
             
+            console.log("HWO");
             if (type === HUB_MSG_TYPE.JOIN) {
+                console.log("THIS");
+                console.log(client.swarm.remotes[from]);
                 client.swarm.remotes[from].on('data', function(data) {
                     console.log("lmao dataaaaaa: ", data);
                 });
