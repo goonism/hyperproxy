@@ -11,15 +11,6 @@ const HUB_URL = process.env.LOCAL
     ? `ws://${HUB_IP}:${HUB_PORT}/`
     : `wss://hub.hyperproxy.network/`;
 
-
-
-
-
-
-
-
-
-
 module.exports = Object.freeze({
     HUB_NAME,
     HUB_IP,

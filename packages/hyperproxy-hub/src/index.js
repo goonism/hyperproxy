@@ -28,13 +28,20 @@ function onConnection(ws) {
             return;
         }
 
-        logger.info(jsond, 'new websocket message');
-
         // if not all channel and no HyperProxy-node has been assigned
-        if (jsond.channel !== 'all' && jsond.message.type === HUB_MSG_TYPE.JOIN) {
-            if (!datMap[jsond.channel]) {
-                logger.info(jsond.channel, 'spawn new hyperproxy-node');
-                datMap[jsond.channel] = new HyperProxyNode(jsond.channel);
+        if (jsond.channel !== 'all') {
+            console.log('Got message', jsond);
+            if (jsond.message.type === HUB_MSG_TYPE.JOIN) {
+                if (!datMap[jsond.channel]) {
+                    logger.info(jsond.channel, 'spawn new hyperproxy-node');
+                    const nodeInstance = new HyperProxyNode(jsond.channel);
+
+                    datMap[jsond.channel] = [nodeInstance];
+                }
+
+                datMap[jsond.channel].peers.push(ws);
+
+                ws.send('Hello');
             }
 
             return;
