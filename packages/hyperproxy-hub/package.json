@@ -25,6 +25,7 @@
   "dependencies": {
     "bufferutil": "^3.0.3",
     "hyperproxy-config": "^1.0.0",
+    "hyperproxy-logger": "^1.0.0",
     "hyperproxy-node": "^1.0.0",
     "pino": "^4.16.1",
     "utf-8-validate": "^4.0.0",

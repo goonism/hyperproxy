@@ -1,19 +1,14 @@
-import Pino from 'pino';
 import WebSocket from 'uws';
 
 import {HUB_PORT as port, HUB_MSG_TYPE} from 'hyperproxy-config';
 import HyperProxyNode from 'hyperproxy-node';
+import HyperProxyLogger from 'hyperproxy-logger';
 
 const datMap = new Map();
 
 const wss = new WebSocket.Server({port});
 
-const pretty = Pino.pretty();
-pretty.pipe(process.stdout);
-const logger = Pino({
-    name: 'hyperproxy-hub',
-    safe: true
-}, pretty);
+const logger = new HyperProxyLogger('hyperproxy-hub');
 
 function onConnection(ws) {
 

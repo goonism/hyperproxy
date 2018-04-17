@@ -6,14 +6,10 @@ import Wrtc from 'wrtc';
 import {w3cwebsocket as WebSocket} from 'websocket';
 
 import HyperproxyHubClient from 'hyperproxy-hub-client';
+import HyperProxyLogger from 'hyperproxy-logger';
 import {HUB_MSG_TYPE} from 'hyperproxy-config';
 
-const pretty = Pino.pretty();
-pretty.pipe(process.stdout);
-const logger = Pino({
-    name: 'hyperproxy-node',
-    safe: true
-}, pretty);
+const logger = new HyperProxyLogger('hyperproxy-hub');
 
 // TODO: Remove this commented out code @lgvichy
 // https://github.com/goonism/hyperproxy/issues/7
