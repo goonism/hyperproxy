@@ -19,6 +19,37 @@ function init() {
     const urlFormEl = document.querySelector('#url-form');
     const contentEl = document.querySelector('#content');
 
+    const originalOnMessage = client.hub.onMessage;
+
+    // Hack the onMessage event of signalhubws to receive data from Hub
+    client.hub.onMessage = ({data}) => {
+        try {
+            const jsond = JSON.parse(data);
+            const {nodeid, type} = jsond;
+            if (type === 'NODE_ID') {
+                console.log(nodeid);
+                return;
+            }
+        } catch (e) {
+
+        } finally {
+
+        }
+        // originalOnMessage(d);
+    };
+
+    client.swarm.on('peer', function(peer) {
+        console.log("connected to peer", peer);
+        peer.on('data', function(data) {
+            console.log("got data from peer: ", data);
+            // const value = body.type === 'Buffer'
+            //     ? Buffer.from(body).toString('utf8')
+            //     : body;
+            //
+            // contentEl.innerHTML = value;
+        });
+    });
+
     document.querySelector('#swarm-id').innerHTML = client.swarm.me;
 
     document.querySelector('#subscribe').addEventListener('click', () => {
@@ -31,50 +62,19 @@ function init() {
         document.querySelector('#active-daturl').innerHTML = shortHash;
 
         document.querySelector('#send').disabled = false;
-        client.swarm.on('data', function(data) {
-            console.log("okay, now got data");
-        });
-        
-        // client.swarm.on('peer', function(peer) {
-        //     console.log("connected to peer", peer);
-        //     peer.on('data', function(data) {
-        //         console.log("got data from peer: ", data);
-        //     });
-        // });       
 
         client.hub.subscribe(activeHash).on('data', ({from, type, body}) => {
-            
-            console.log("HWO");
-            if (type === HUB_MSG_TYPE.JOIN) {
-                console.log("THIS");
-                console.log(client.swarm.remotes[from]);
-                client.swarm.remotes[from].on('data', function(data) {
-                    console.log("lmao dataaaaaa: ", data);
-                });
-            }
-            // console.log(HUB_MSG_TYPE);
+
+            // Used to respond to close peer if this peer happen to have the data
             if (type != HUB_MSG_TYPE.RESPONSE) {
                 return;
-            } 
-            
-            console.log("got here lmao");
-
-            // TODO: Remove this commented out code @lgvichy https://github.com/goonism/hyperproxy/issues/7
-            // console.log(Buffer.from(data).toString('utf8'));
-            const value = body.type === 'Buffer'
-                ? Buffer.from(body).toString('utf8')
-                : body;
-
-            contentEl.innerHTML = value;
+            }
         });
-        
-        console.log("SWWWWWWWAAAAAAAAAARRRRRRRRRMMMMMMMM");
-        console.log(client.swarm);
+
         client.hub.broadcast(activeHash, {
             from: client.swarm.me,
             type: HUB_MSG_TYPE.JOIN
         });
-        
 
         urlFormEl.classList.remove('enabled');
     });
@@ -89,7 +89,7 @@ function init() {
         });
     });
 
-    document.querySelector('#try-out').addEventListener('click', ()=>{
+    document.querySelector('#try-out').addEventListener('click', () => {
         introEl.classList.remove('enabled');
     });
 }

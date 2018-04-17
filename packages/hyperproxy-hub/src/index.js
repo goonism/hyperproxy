@@ -32,6 +32,7 @@ function onConnection(ws) {
         if (jsond.channel !== 'all') {
             console.log('Got message', jsond);
             if (jsond.message.type === HUB_MSG_TYPE.JOIN) {
+                console.log('received a JOIN event');
                 if (!datMap[jsond.channel]) {
                     logger.info(jsond.channel, 'spawn new hyperproxy-node');
                     const nodeInstance = new HyperProxyNode(jsond.channel);
@@ -41,9 +42,12 @@ function onConnection(ws) {
                 }
 
                 ws.send(JSON.stringify({
+                    channel: jsond.channel,
                     type: 'NODE_ID',
                     nodeid: datMap[jsond.channel]
                 }));
+
+                ws.send('HELLO');
             }
 
             return;
