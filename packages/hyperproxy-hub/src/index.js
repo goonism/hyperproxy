@@ -39,7 +39,7 @@ function onConnection(ws) {
                     datMap[jsond.channel] = [nodeInstance];
                 }
 
-                datMap[jsond.channel].peers.push(ws);
+                datMap[jsond.channel].push(ws);
 
                 ws.send('Hello');
             }
