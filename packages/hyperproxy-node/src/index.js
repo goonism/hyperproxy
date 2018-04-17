@@ -43,9 +43,9 @@ export default class HyperproxyNode {
     /*
         Connect to the hub under the specified key.
     */
-    async _connectToHub(key) {
-        const client = new HyperproxyHubClient(WebSocket, Wrtc);
-        client.hub.subscribe(key).on('data', (data) => {
+    _connectToHub(key) {
+        this.client = new HyperproxyHubClient(WebSocket, Wrtc);
+        this.client.hub.subscribe(key).on('data', (data) => {
             try {
                 this._handleData(client, key, data);
             } catch (e) {
