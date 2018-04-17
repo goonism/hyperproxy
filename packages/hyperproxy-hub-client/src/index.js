@@ -38,17 +38,17 @@ export default class HyperproxyHubClient {
         });
 
         sw.on('message', function(m) {
-            logger.info(m, 'NEW SWARM MESSAGE');
+            logger.info(m, 'new swarm message');
         });
 
         sw.on('peer', function(peer, id) {
-            logger.info(id, 'NEW PEER CONNECTED');
-            logger.info(sw.peers.length, 'TOTAL PEER');
+            logger.info(id, 'peer connected');
+            logger.info(sw.peers.length, 'total peers');
         });
 
         sw.on('disconnect', function(peer, id) {
-            logger.info(id, 'PEER DISCONNECTED');
-            logger.info(sw.peers.length, 'TOTAL PEER');
+            logger.info(id, 'peer disconnected');
+            logger.info(sw.peers.length, 'total peers');
         });
         /* END Swarm Event */
     }

@@ -20,7 +20,7 @@ export default class HyperproxyNode {
             this.datResolve = this._connectToDat(channelName);
             this._connectToHub(channelName);
         } catch (e) {
-            logger.error(e, 'CONSTRUCTOR FAILED');
+            logger.error(e, 'constructor failed');
         }
     }
 
@@ -49,7 +49,7 @@ export default class HyperproxyNode {
             try {
                 this._handleData(client, key, data);
             } catch (e) {
-                logger.error(e, 'CANNOT HANDLE DATA');
+                logger.error(e, 'cannot handle data');
             }
         });
     }

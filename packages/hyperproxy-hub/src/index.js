@@ -15,7 +15,7 @@ function onConnection(ws) {
     // Data token
     const app = ws.upgradeReq.url.split('?')[0].split('#')[0].substring(1).split('/');
 
-    logger.info(app, 'CONNECTED TO APP');
+    logger.info(app, 'connected');
 
     ws.app = app[app.length - 1];
 
@@ -28,12 +28,12 @@ function onConnection(ws) {
             return;
         }
 
-        logger.info(jsond, 'NEW WEBSOCKET MESSAGE');
+        logger.info(jsond, 'new websocket message');
 
         // if not all channel and no HyperProxy-node has been assigned
         if (jsond.channel !== 'all' && jsond.message.type === HUB_MSG_TYPE.JOIN) {
             if (!datMap[jsond.channel]) {
-                logger.info(jsond.channel, 'SPAWN NEW HYPERPROXY NODE');
+                logger.info(jsond.channel, 'spawn new hyperproxy-node');
                 datMap[jsond.channel] = new HyperProxyNode(jsond.channel);
             }
 
@@ -42,7 +42,7 @@ function onConnection(ws) {
 
         wss.clients.forEach((client) => {
             if (jsond.app === client.app) {
-                logger.info('BROADCASTING ON APP: %s', client.app);
+                logger.info(client.app, 'broadcasting');
                 client.send(data);
             }
         });
@@ -51,5 +51,5 @@ function onConnection(ws) {
 
 wss.on('connection', onConnection);
 wss.on('listening', function() {
-    logger.info(`HyperProxy Hub running on ${port}`);
+    logger.info(`hyperproxy-hub running on ${port}`);
 });
