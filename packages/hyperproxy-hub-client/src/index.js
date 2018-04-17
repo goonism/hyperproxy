@@ -1,7 +1,10 @@
 import swarm from 'webrtc-swarm';
 import signalhub from 'signalhubws';
 
+import HyperProxyLogger from 'hyperproxy-logger';
 import {HUB_NAME, HUB_URL} from 'hyperproxy-config';
+
+const logger = new HyperProxyLogger('hyperproxy-hub');
 
 export default class HyperproxyHubClient {
 
@@ -35,17 +38,17 @@ export default class HyperproxyHubClient {
         });
 
         sw.on('message', function(m) {
-            console.log(m);
+            logger.info(m, 'new swarm message');
         });
 
         sw.on('peer', function(peer, id) {
-            console.log('connected to a new peer:', id);
-            console.log('total peers:', sw.peers.length);
+            logger.info(id, 'peer connected');
+            logger.info(sw.peers.length, 'total peers');
         });
 
         sw.on('disconnect', function(peer, id) {
-            console.log('disconnected from a peer:', id);
-            console.log('total peers:', sw.peers.length);
+            logger.info(id, 'peer disconnected');
+            logger.info(sw.peers.length, 'total peers');
         });
         /* END Swarm Event */
     }

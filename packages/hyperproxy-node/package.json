@@ -29,7 +29,8 @@
   "dependencies": {
     "dat-node": "^3.5.8",
     "hyperproxy-config": "^1.0.0",
-    "pino": "^4.16.1",
+    "hyperproxy-hub": "^1.0.0",
+    "hyperproxy-logger": "^1.0.0",
     "wrtc": "^0.1.1"
   }
 }

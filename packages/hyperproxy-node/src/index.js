@@ -6,22 +6,22 @@ import Wrtc from 'wrtc';
 import {w3cwebsocket as WebSocket} from 'websocket';
 
 import HyperproxyHubClient from 'hyperproxy-hub-client';
+import HyperProxyLogger from 'hyperproxy-logger';
 import {HUB_MSG_TYPE} from 'hyperproxy-config';
 
-const pretty = Pino.pretty();
-pretty.pipe(process.stdout);
-const logger = Pino({
-    name: 'hyperproxy-node',
-    safe: true
-}, pretty);
+const logger = new HyperProxyLogger('hyperproxy-hub');
 
 // TODO: Remove this commented out code @lgvichy
 // https://github.com/goonism/hyperproxy/issues/7
 // 40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9
 export default class HyperproxyNode {
     constructor(channelName) {
-        this.datResolve = this._connectToDat(channelName);
-        this._connectToHub(channelName);
+        try {
+            this.datResolve = this._connectToDat(channelName);
+            this._connectToHub(channelName);
+        } catch (e) {
+            logger.error(e, 'constructor failed');
+        }
     }
 
     /*
@@ -49,7 +49,7 @@ export default class HyperproxyNode {
             try {
                 this._handleData(client, key, data);
             } catch (e) {
-                console.error("ERROR in hyperproxy-node! ", err);
+                logger.error(e, 'cannot handle data');
             }
         });
     }

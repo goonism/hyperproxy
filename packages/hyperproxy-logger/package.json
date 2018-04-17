@@ -1,7 +1,7 @@
 {
-  "name": "hyperproxy-hub-client",
+  "name": "hyperproxy-logger",
   "version": "1.0.0",
-  "description": "Client module connecting to the hyperproxy-hub.",
+  "description": "Logging module for Hyperproxy.",
   "main": "index.js",
   "scripts": {
     "watch": "babel src -d lib --watch",
@@ -19,13 +19,7 @@
   },
   "homepage": "https://github.com/goonism/hyperproxy#readme",
   "dependencies": {
-    "bufferutil": "^3.0.3",
-    "hyperproxy-config": "^1.0.0",
-    "hyperproxy-logger": "^1.0.0",
-    "signalhubws": "^1.0.4",
-    "utf-8-validate": "^4.0.0",
-    "uws": "^9.14.0",
-    "webrtc-swarm": "^2.9.0"
+    "pino": "^4.16.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
