@@ -31,7 +31,6 @@
     "hyperproxy-config": "^1.0.0",
     "hyperproxy-hub": "^1.0.0",
     "hyperproxy-logger": "^1.0.0",
-    "pino": "^4.16.1",
     "wrtc": "^0.1.1"
   }
 }

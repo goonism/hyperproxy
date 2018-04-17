@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/goonism/hyperproxy#readme",
   "dependencies": {
-
+    "pino": "^4.16.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
