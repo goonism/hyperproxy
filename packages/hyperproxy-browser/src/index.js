@@ -21,34 +21,54 @@ function init() {
 
     const originalOnMessage = client.hub.onMessage;
 
+    window.addEventListener('unload', ()=>{
+        client.hub.broadcast(activeHash, {
+            from: client.swarm.me,
+            type: HUB_MSG_TYPE.LEAVE
+        });
+    });
+
     // Hack the onMessage event of signalhubws to receive data from Hub
-    client.hub.onMessage = ({data}) => {
-        try {
-            const jsond = JSON.parse(data);
-            const {nodeid, type} = jsond;
-            if (type === 'NODE_ID') {
-                console.log(nodeid);
-                return;
-            }
-        } catch (e) {
-
-        } finally {
-
-        }
-        // originalOnMessage(d);
-    };
+    // client.hub.onMessage = function() {
+    //     try {
+    //         const jsond = JSON.parse(arguments[0].data);
+    //         const {nodeid, type} = jsond;
+    //
+    //         if (type === 'NODE_ID') {
+    //             console.log(nodeid);
+    //             console.log(client.swarm.remotes);
+    //             if (client.swarm.remotes[nodeid]) {
+    //                 console.log('GOT NODEID FROM A NODE');
+    //                 client.swarm.remotes[nodeid].on('data', function(data) {
+    //                     console.log("got data from peer 1: ", data);
+    //
+    //                     renderOutput(data);
+    //                 });
+    //             }
+    //             return;
+    //         }
+    //     } catch (e) {} finally {}
+    //     originalOnMessage.apply(this, arguments);
+    // };
 
     client.swarm.on('peer', function(peer) {
         console.log("connected to peer", peer);
+
         peer.on('data', function(data) {
-            console.log("got data from peer: ", data);
-            // const value = body.type === 'Buffer'
-            //     ? Buffer.from(body).toString('utf8')
-            //     : body;
-            //
-            // contentEl.innerHTML = value;
+            console.log("got data from peer 2: ", data);
+            renderOutput(data);
         });
     });
+
+    function renderOutput(data) {
+        const {body, type, from} = JSON.parse(Buffer.from(data).toString('utf8'));
+        console.log(body);
+        const value = body.type === 'Buffer'
+            ? Buffer.from(body.data).toString('utf8')
+            : body.data;
+
+        contentEl.innerHTML = value;
+    }
 
     document.querySelector('#swarm-id').innerHTML = client.swarm.me;
 
@@ -64,7 +84,6 @@ function init() {
         document.querySelector('#send').disabled = false;
 
         client.hub.subscribe(activeHash).on('data', ({from, type, body}) => {
-
             // Used to respond to close peer if this peer happen to have the data
             if (type != HUB_MSG_TYPE.RESPONSE) {
                 return;

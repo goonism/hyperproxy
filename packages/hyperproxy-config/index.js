@@ -18,8 +18,8 @@ module.exports = Object.freeze({
     HUB_URL,
     HUB_MSG_TYPE: {
         JOIN: 'JOIN',
+        LEAVE: 'LEAVE',
         REQUEST: 'REQUEST',
         RESPONSE: 'RESPONSE',
-        DISCONNECT: 'DISCONNECT'
     }
 });

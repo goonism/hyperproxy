@@ -24,6 +24,11 @@ export default class HyperproxyNode {
         }
     }
 
+    close(){
+        this.client.swarm.close();
+        this.client.hub.close();
+    }
+
     /*
         Read a file from the subscribed dat archive asyncornously
     */
@@ -47,7 +52,7 @@ export default class HyperproxyNode {
         this.client = new HyperproxyHubClient(WebSocket, Wrtc);
         this.client.hub.subscribe(key).on('data', (data) => {
             try {
-                this._handleData(client, key, data);
+                this._handleData(key, data);
             } catch (e) {
                 logger.error(e, 'cannot handle data');
             }
@@ -60,7 +65,7 @@ export default class HyperproxyNode {
     /*
         Handle any peer data by getting them from TCP/UDP dat
     */
-    async _handleData(client, key, {from, body, type}) {
+    async _handleData(key, {from, body, type}) {
         if (type === HUB_MSG_TYPE.RESPONSE) {
             return;
         }
@@ -68,20 +73,20 @@ export default class HyperproxyNode {
         if (type === HUB_MSG_TYPE.REQUEST) {
 
             console.log("DDDDDDDDDDDDDDDDDDD");
-            console.log(client.swarm.peers);
-            console.log(client.swarm);
+            console.log(this.client.swarm.peers);
+            console.log(this.client.swarm);
             console.log("DDDDDDDDDDDDDDDDDDD");
 
             const file = await this.readFile(body);
             // TODO @lgvichy https://github.com/goonism/hyperproxy/issues/24
 
             const payload = JSON.stringify({
-                from: client.swarm.me,
+                from: this.client.swarm.me,
                 type: HUB_MSG_TYPE.RESPONSE,
                 body: file
             });
 
-            client.swarm.remotes[from].send(Buffer.from(payload));
+            this.client.swarm.remotes[from].send(Buffer.from(payload));
         }
     }
 

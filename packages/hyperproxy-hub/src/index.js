@@ -5,6 +5,7 @@ import HyperProxyNode from 'hyperproxy-node';
 import HyperProxyLogger from 'hyperproxy-logger';
 
 const datMap = new Map();
+const nodeMap = new Map();
 
 const wss = new WebSocket.Server({port});
 
@@ -31,26 +32,36 @@ function onConnection(ws) {
         // if not all channel and no HyperProxy-node has been assigned
         if (jsond.channel !== 'all') {
             console.log('Got message', jsond);
+
             if (jsond.message.type === HUB_MSG_TYPE.JOIN) {
                 console.log('received a JOIN event');
+
                 if (!datMap[jsond.channel]) {
                     logger.info(jsond.channel, 'spawn new hyperproxy-node');
                     const nodeInstance = new HyperProxyNode(jsond.channel);
 
                     //TODO: Extends this to be a more generic object that has peer ID
-                    datMap[jsond.channel] = nodeInstance.client.swarm.me;
+                    datMap[jsond.channel] = {
+                        [nodeInstance.client.swarm.me]: true,
+                        [jsond.message.from]: true
+                    };
+                    nodeMap[jsond.channel] = nodeInstance;
+                } else {
+                    datMap[jsond.channel][jsond.message.from] = true;
+                    return;
                 }
-
-                ws.send(JSON.stringify({
-                    channel: jsond.channel,
-                    type: 'NODE_ID',
-                    nodeid: datMap[jsond.channel]
-                }));
-
-                ws.send('HELLO');
             }
 
-            return;
+            if (jsond.message.type === HUB_MSG_TYPE.LEAVE) {
+                console.log('received a LEAVE event');
+                delete datMap[jsond.channel][jsond.message.from];
+                if (Object.keys(datMap[jsond.channel]).length === 1) {
+                    nodeMap[jsond.channel].close();
+                    delete nodeMap[jsond.channel];
+                    delete datMap[jsond.channel];
+                }
+
+            }
         }
 
         wss.clients.forEach((client) => {
