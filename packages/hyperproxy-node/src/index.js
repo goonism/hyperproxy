@@ -11,9 +11,6 @@ import {HUB_MSG_TYPE} from 'hyperproxy-config';
 
 const logger = new HyperProxyLogger('hyperproxy-hub');
 
-// TODO: Remove this commented out code @lgvichy
-// https://github.com/goonism/hyperproxy/issues/7
-// 40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9
 export default class HyperproxyNode {
     constructor(channelName) {
         try {
@@ -70,10 +67,11 @@ export default class HyperproxyNode {
         if (type === HUB_MSG_TYPE.REQUEST) {
 
             const file = await this.readFile(body);
-            // TODO @lgvichy https://github.com/goonism/hyperproxy/issues/24
 
             const payload = JSON.stringify({
                 from: this.client.swarm.me,
+            client.hub.broadcast(key, {
+                from: client.swarm.me,
                 type: HUB_MSG_TYPE.RESPONSE,
                 body: file
             });
@@ -106,7 +104,3 @@ export default class HyperproxyNode {
         });
     }
 }
-
-// TODO: Remove this commented out code @lgvichy
-// https://github.com/goonism/hyperproxy/issues/7 const hp = new
-// HyperproxyNode('40a7f6b6147ae695bcbcff432f684c7bb5291ea339c28c1755896cdeb80bd2f9');

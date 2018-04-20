@@ -57,10 +57,15 @@ function init() {
         document.querySelector('#send').disabled = false;
 
         client.hub.subscribe(activeHash).on('data', ({from, type, body}) => {
-            // Used to respond to close peer if this peer happen to have the data
             if (type != HUB_MSG_TYPE.RESPONSE) {
                 return;
             }
+
+            const value = body.type === 'Buffer'
+                ? Buffer.from(body).toString('utf8')
+                : body;
+
+            contentEl.innerHTML = value;
         });
 
         client.hub.broadcast(activeHash, {
