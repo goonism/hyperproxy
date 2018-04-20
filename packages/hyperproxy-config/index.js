@@ -1,4 +1,3 @@
-process.env.LOCAL = true;
 /*
     Return Hub Variable
 */
