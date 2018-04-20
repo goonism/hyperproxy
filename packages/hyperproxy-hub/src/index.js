@@ -64,13 +64,14 @@ function onConnection(ws) {
             }
         }
 
-        wss.clients.forEach((client) => {
-            if (jsond.app === client.app) {
-                logger.info(client.app, 'broadcasting');
-                client.send(data);
-            }
-        });
-
+        wss
+            .clients
+            .forEach((client) => {
+                if (jsond.app === client.app) {
+                    logger.info(client.app, 'broadcasting');
+                    client.send(data);
+                }
+            });
     });
 }
 

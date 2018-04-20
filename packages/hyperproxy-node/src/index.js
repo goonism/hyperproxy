@@ -59,9 +59,6 @@ export default class HyperproxyNode {
         });
     }
 
-    _getPeerFrom(peerKey, peers) {
-        // peers.filter(peer => peer. == peerkKey)
-    }
     /*
         Handle any peer data by getting them from TCP/UDP dat
     */
@@ -71,11 +68,6 @@ export default class HyperproxyNode {
         }
 
         if (type === HUB_MSG_TYPE.REQUEST) {
-
-            console.log("DDDDDDDDDDDDDDDDDDD");
-            console.log(this.client.swarm.peers);
-            console.log(this.client.swarm);
-            console.log("DDDDDDDDDDDDDDDDDDD");
 
             const file = await this.readFile(body);
             // TODO @lgvichy https://github.com/goonism/hyperproxy/issues/24

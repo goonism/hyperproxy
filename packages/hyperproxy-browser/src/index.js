@@ -28,41 +28,14 @@ function init() {
         });
     });
 
-    // Hack the onMessage event of signalhubws to receive data from Hub
-    // client.hub.onMessage = function() {
-    //     try {
-    //         const jsond = JSON.parse(arguments[0].data);
-    //         const {nodeid, type} = jsond;
-    //
-    //         if (type === 'NODE_ID') {
-    //             console.log(nodeid);
-    //             console.log(client.swarm.remotes);
-    //             if (client.swarm.remotes[nodeid]) {
-    //                 console.log('GOT NODEID FROM A NODE');
-    //                 client.swarm.remotes[nodeid].on('data', function(data) {
-    //                     console.log("got data from peer 1: ", data);
-    //
-    //                     renderOutput(data);
-    //                 });
-    //             }
-    //             return;
-    //         }
-    //     } catch (e) {} finally {}
-    //     originalOnMessage.apply(this, arguments);
-    // };
-
     client.swarm.on('peer', function(peer) {
-        console.log("connected to peer", peer);
-
         peer.on('data', function(data) {
-            console.log("got data from peer 2: ", data);
             renderOutput(data);
         });
     });
 
     function renderOutput(data) {
         const {body, type, from} = JSON.parse(Buffer.from(data).toString('utf8'));
-        console.log(body);
         const value = body.type === 'Buffer'
             ? Buffer.from(body.data).toString('utf8')
             : body.data;
