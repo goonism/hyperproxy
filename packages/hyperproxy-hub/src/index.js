@@ -31,10 +31,10 @@ function onConnection(ws) {
 
         // if not all channel and no HyperProxy-node has been assigned
         if (jsond.channel !== 'all') {
-            console.log('Got message', jsond);
+            logger.info(jsond, 'Got message');
 
             if (jsond.message.type === HUB_MSG_TYPE.JOIN) {
-                console.log('received a JOIN event');
+                logger.info('received a JOIN event');
 
                 if (!datMap[jsond.channel]) {
                     logger.info(jsond.channel, 'spawn new hyperproxy-node');
@@ -53,7 +53,7 @@ function onConnection(ws) {
             }
 
             if (jsond.message.type === HUB_MSG_TYPE.LEAVE) {
-                console.log('received a LEAVE event');
+                logger.info('received a LEAVE event');
                 delete datMap[jsond.channel][jsond.message.from];
                 if (Object.keys(datMap[jsond.channel]).length === 1) {
                     nodeMap[jsond.channel].close();

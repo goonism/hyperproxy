@@ -70,8 +70,6 @@ export default class HyperproxyNode {
 
             const payload = JSON.stringify({
                 from: this.client.swarm.me,
-            client.hub.broadcast(key, {
-                from: client.swarm.me,
                 type: HUB_MSG_TYPE.RESPONSE,
                 body: file
             });
