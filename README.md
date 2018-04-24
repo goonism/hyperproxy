@@ -9,7 +9,7 @@
 </h1>
 
 <h2 align="center">
-    Dat WebRTC to TCP/UDP proxy
+    WebRTC to native Dat Proxy
 </h2>
 
 # Goal
@@ -28,7 +28,7 @@ npm i -g lerna browser-sync
 
 Get `yarn`, either via package or via npm.
 
-Run these anywhere within hyperproxy:
+Run these anywhere within Hyperproxy:
 
 ```
 lerna bootstrap
