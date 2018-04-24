@@ -23,13 +23,13 @@ contributing, please read the
 
 - If you aren't just making a documentation change, you'll probably want to learn a bit about a few topics.
 
-- Check out [`/documentations`](https://github.com/goonism/hyperproxy/tree/master/documentations) for information about arbiter's internals
+- Check out [`/documentation`](https://github.com/goonism/hyperproxy/tree/master/documentation) for information about Hyperproxy's internals
 
-- When you feel ready to jump into the HyperProxy source code, a good place to start is to look for issues tagged with [help wanted](https://github.com/goonism/hyperproxy/labels/help%20wanted) and/or [good first issue](https://github.com/goonism/hyperproxy/labels/good%20first%20issue).
+- When you feel ready to jump into the Hyperproxy source code, a good place to start is to look for issues tagged with [help wanted](https://github.com/goonism/hyperproxy/labels/help%20wanted) and/or [good first issue](https://github.com/goonism/hyperproxy/labels/good%20first%20issue).
 
 ## Developing
 
-HyperProxy is built for Node 9 and up.
+Hyperproxy is built for Node 9 and up.
 
 Make sure that Yarn is installed with version >= `0.28.0`.
 Installation instructions can be found here: https://yarnpkg.com/en/docs/install.
@@ -51,13 +51,13 @@ $ lerna run start
 
 ### Guide on lerna
 
-The following are list of useful root command (command that should be run from the root directory):
+The following are a list of useful root commands (commands that should be run from the root directory):
 
 ```
 "yarn bootstrap": Bootstrap dependency for all modules
-"yarn test": Run unit test in each module
-"yarn prepare": Prepare all package to publish
-"yarn clean": Clean up all local build artifact
+"yarn test": Run unit tests in each module
+"yarn prepare": Prepare all packages to be publish
+"yarn clean": Clean up all local build artifacts
 ```
 
 ### Writing tests
@@ -67,3 +67,7 @@ Most packages in [`/packages`](https://github.com/hyperproxy/tree/master/package
 ### Debugging code
 
 A common approach to debugging JavaScript code is to walk through the code using the [Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools/) debugger.
+
+### Submitting a PR
+
+Make sure to run `eslint` on your code before submitting a pull request, please!
