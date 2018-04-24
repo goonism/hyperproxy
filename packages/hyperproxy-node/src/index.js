@@ -67,7 +67,6 @@ export default class HyperproxyNode {
         if (type === HUB_MSG_TYPE.REQUEST) {
 
             const file = await this.readFile(body);
-
             const payload = JSON.stringify({
                 from: this.client.swarm.me,
                 type: HUB_MSG_TYPE.RESPONSE,
@@ -102,3 +101,4 @@ export default class HyperproxyNode {
         });
     }
 }
+
