@@ -5,7 +5,7 @@
 </p>
 
 <h1 align="center">
-    hyperproxy
+    Hyperproxy
 </h1>
 
 <h2 align="center">
