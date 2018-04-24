@@ -5,6 +5,7 @@ import HyperProxyNode from 'hyperproxy-node';
 import HyperProxyLogger from 'hyperproxy-logger';
 
 const datMap = new Map();
+const nodeMap = new Map();
 
 const wss = new WebSocket.Server({port});
 
@@ -28,24 +29,49 @@ function onConnection(ws) {
             return;
         }
 
-        logger.info(jsond, 'new websocket message');
-
         // if not all channel and no HyperProxy-node has been assigned
-        if (jsond.channel !== 'all' && jsond.message.type === HUB_MSG_TYPE.JOIN) {
-            if (!datMap[jsond.channel]) {
-                logger.info(jsond.channel, 'spawn new hyperproxy-node');
-                datMap[jsond.channel] = new HyperProxyNode(jsond.channel);
+        if (jsond.channel !== 'all') {
+            logger.info(jsond, 'Got message');
+
+            if (jsond.message.type === HUB_MSG_TYPE.JOIN) {
+                logger.info('received a JOIN event');
+
+                if (!datMap[jsond.channel]) {
+                    logger.info(jsond.channel, 'spawn new hyperproxy-node');
+                    const nodeInstance = new HyperProxyNode(jsond.channel);
+
+                    //TODO: Extends this to be a more generic object that has peer ID
+                    datMap[jsond.channel] = {
+                        [nodeInstance.client.swarm.me]: true,
+                        [jsond.message.from]: true
+                    };
+                    nodeMap[jsond.channel] = nodeInstance;
+                } else {
+                    datMap[jsond.channel][jsond.message.from] = true;
+                    return;
+                }
             }
 
-            return;
+            if (jsond.message.type === HUB_MSG_TYPE.LEAVE) {
+                logger.info('received a LEAVE event');
+                delete datMap[jsond.channel][jsond.message.from];
+                if (Object.keys(datMap[jsond.channel]).length === 1) {
+                    nodeMap[jsond.channel].close();
+                    delete nodeMap[jsond.channel];
+                    delete datMap[jsond.channel];
+                }
+
+            }
         }
 
-        wss.clients.forEach((client) => {
-            if (jsond.app === client.app) {
-                logger.info(client.app, 'broadcasting');
-                client.send(data);
-            }
-        });
+        wss
+            .clients
+            .forEach((client) => {
+                if (jsond.app === client.app) {
+                    logger.info(client.app, 'broadcasting');
+                    client.send(data);
+                }
+            });
     });
 }
 

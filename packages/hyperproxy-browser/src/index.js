@@ -19,6 +19,30 @@ function init() {
     const urlFormEl = document.querySelector('#url-form');
     const contentEl = document.querySelector('#content');
 
+    const originalOnMessage = client.hub.onMessage;
+
+    window.addEventListener('unload', ()=>{
+        client.hub.broadcast(activeHash, {
+            from: client.swarm.me,
+            type: HUB_MSG_TYPE.LEAVE
+        });
+    });
+
+    client.swarm.on('peer', function(peer) {
+        peer.on('data', function(data) {
+            renderOutput(data);
+        });
+    });
+
+    function renderOutput(data) {
+        const {body, type, from} = JSON.parse(Buffer.from(data).toString('utf8'));
+        const value = body.type === 'Buffer'
+            ? Buffer.from(body.data).toString('utf8')
+            : body.data;
+
+        contentEl.innerHTML = value;
+    }
+
     document.querySelector('#swarm-id').innerHTML = client.swarm.me;
 
     document.querySelector('#subscribe').addEventListener('click', () => {
@@ -62,7 +86,7 @@ function init() {
         });
     });
 
-    document.querySelector('#try-out').addEventListener('click', ()=>{
+    document.querySelector('#try-out').addEventListener('click', () => {
         introEl.classList.remove('enabled');
     });
 }

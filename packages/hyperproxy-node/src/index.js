@@ -21,6 +21,11 @@ export default class HyperproxyNode {
         }
     }
 
+    close(){
+        this.client.swarm.close();
+        this.client.hub.close();
+    }
+
     /*
         Read a file from the subscribed dat archive asyncornously
     */
@@ -40,11 +45,11 @@ export default class HyperproxyNode {
     /*
         Connect to the hub under the specified key.
     */
-    async _connectToHub(key) {
-        const client = new HyperproxyHubClient(WebSocket, Wrtc);
-        client.hub.subscribe(key).on('data', (data) => {
+    _connectToHub(key) {
+        this.client = new HyperproxyHubClient(WebSocket, Wrtc);
+        this.client.hub.subscribe(key).on('data', (data) => {
             try {
-                this._handleData(client, key, data);
+                this._handleData(key, data);
             } catch (e) {
                 logger.error(e, 'cannot handle data');
             }
@@ -54,18 +59,21 @@ export default class HyperproxyNode {
     /*
         Handle any peer data by getting them from TCP/UDP dat
     */
-    async _handleData(client, key, {from, body, type}) {
+    async _handleData(key, {from, body, type}) {
         if (type === HUB_MSG_TYPE.RESPONSE) {
             return;
         }
 
         if (type === HUB_MSG_TYPE.REQUEST) {
+
             const file = await this.readFile(body);
-            client.hub.broadcast(key, {
-                from: client.swarm.me,
+            const payload = JSON.stringify({
+                from: this.client.swarm.me,
                 type: HUB_MSG_TYPE.RESPONSE,
                 body: file
             });
+
+            this.client.swarm.remotes[from].send(Buffer.from(payload));
         }
     }
 
@@ -93,3 +101,4 @@ export default class HyperproxyNode {
         });
     }
 }
+

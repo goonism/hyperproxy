@@ -7,8 +7,9 @@
     "hyperproxy-hub": "./index.js"
   },
   "scripts": {
+    "dev": "devtool -r babel-register src/index.js",
     "start": "node lib/index.js",
-    "watch": "babel-watch src/index.js",
+    "watch": "babel-watch --inspect src/index.js",
     "build": "babel src -d lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
